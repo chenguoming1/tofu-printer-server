@@ -1,21 +1,21 @@
 <?php
 
-use App\Http\Controllers\PaymentController;
-use App\Http\Resources\PricingPlanCollection;
-use App\Http\Resources\PricingPlanResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Resources\PrinterCollection;
 use App\Http\Resources\PrinterResource;
+use App\Http\Resources\PrintJobResource;
+use App\Http\Resources\PricingPlanResource;
+use App\Http\Controllers\PaymentController;
 use App\Models\PricingPlan;
 use App\Models\Printer;
+use App\Models\PrintJob;
 
 Route::prefix('v1')->group(function () {
     Route::get('/options', function () {
         $response = [
             'message' => 'retrieved data successfully',
             'data' => config('printoptions')
-        ];
+    ];
         return $response;    
     });
 
@@ -63,5 +63,10 @@ Route::prefix('v1')->group(function () {
         $printer = PricingPlan::findOrFail($id);
         $printer->update($request->all());
         return new PricingPlanResource($printer);
+    });
+
+    ########################## Print Job ##########################
+    Route::get('/print_jobs', function (Request $request) {
+        return PrintJobResource::collection(PrintJob::paginate($request->input('per_page', 20)));
     });
 });

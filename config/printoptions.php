@@ -2,18 +2,18 @@
 
 return [
     [
-        "name" => "basic_copy",
+        "name" => "basic",
         "display_name" => "Basic Copy",
         "option_items" => [
             [
-                "name" => "no_of_copy",
-                "display_name" => "",
+                "name" => "quantity",
+                "display_name" => "No of copies",
                 "type" => "number",
                 "min" => 1,
                 "max" => 100
             ],
             [
-                "name" => "color_mode",
+                "name" => "color",
                 "display_name" => "Color Mode",
                 "type" => "select",
                 "options" => [
@@ -96,18 +96,18 @@ return [
         ]
     ],
     [
-        "name" => "id_copy",
+        "name" => "id_card",
         "display_name" => "ID Copy",
         "option_items" => [
             [
-                "name" => "no_of_copy",
-                "display_name" => "",
+                "name" => "quantity",
+                "display_name" => "No of copies",
                 "type" => "number",
                 "min" => 1,
                 "max" => 100
             ],
             [
-                "name" => "color_mode",
+                "name" => "color",
                 "display_name" => "Color Mode",
                 "type" => "select",
                 "options" => [
@@ -144,18 +144,18 @@ return [
         ]
     ],
     [
-        "name" => "passport_copy",
+        "name" => "passport",
         "display_name" => "Passport Copy",
         "option_items" => [
             [
-                "name" => "no_of_copy",
-                "display_name" => "",
+                "name" => "quantity",
+                "display_name" => "No of copies",
                 "type" => "number",
                 "min" => 1,
                 "max" => 100
             ],
             [
-                "name" => "color_mode",
+                "name" => "color",
                 "display_name" => "Color Mode",
                 "type" => "select",
                 "options" => [

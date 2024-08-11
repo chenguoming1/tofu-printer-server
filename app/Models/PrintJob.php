@@ -12,6 +12,6 @@ class PrintJob extends Model
     protected $guarded = ['created_at', 'updated_at', 'id'];
 
     protected $casts = [
-        'selected_options' => 'array',
+        'selected_option_items' => 'array',
     ];
 }

@@ -24,7 +24,7 @@ class PaymentController extends Controller
         $hitPayPricing = config('hitpay.pricing');
 
         $jobType = $selectedOptions['job_type'];
-        $noOfCopy = $selectedOptions["option_items"]['no_of_copy'];
+        $noOfCopy = $selectedOptions["option_items"]['quantity'];
         $paperSize = $selectedOptions["option_items"]['paper_size'];
         $colorMode = $selectedOptions["option_items"]['color_mode'];
         $sides = $selectedOptions["option_items"]['sides'];
@@ -47,8 +47,8 @@ class PaymentController extends Controller
         $jobRef = '1234567890';
         $location = '';
         $jobType = $selectedOptions['job_type'];
-        $category = $selectedOptions['option'];
-        $qty = $selectedOptions["option_items"]['no_of_copy'];
+        $category = $selectedOptions['sub_category'];
+        $qty = $selectedOptions["option_items"]['quantity'];
         $paymentMethod = 'paynow_online';
         $status = 'pending';
 

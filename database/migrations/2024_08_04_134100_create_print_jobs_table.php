@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('currency_code')->default('SGD');
             $table->string('payment_type');
             $table->string('payment_status');
-            $table->json('selected_options')->nullable();
+            $table->json('selected_option_items')->nullable();
             $table->timestamps();
         });
     }

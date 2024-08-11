@@ -24,7 +24,7 @@ class PricingPlanFactory extends Factory
             'variants' => [
                 [
                     'a3' => [
-                        'bw' => [
+                        'mono' => [
                             'single' => '0.10',
                             'double' => '0.20',
                         ],
@@ -36,7 +36,7 @@ class PricingPlanFactory extends Factory
                 ],
                 [
                     'a4' => [
-                        'bw' => [
+                        'mono' => [
                             'single' => '0.10',
                             'double' => '0.20',
                         ],
@@ -48,7 +48,7 @@ class PricingPlanFactory extends Factory
                 ],
                 [
                     'a5' => [
-                        'bw' => [
+                        'mono' => [
                             'single' => '0.10',
                             'double' => '0.20',
                         ],
