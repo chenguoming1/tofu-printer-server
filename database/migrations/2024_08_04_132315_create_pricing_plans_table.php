@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('job_type')->nullable();
             $table->string('sub_category')->nullable();
             $table->json('variants')->nullable();
-            $table->boolean('published')->default(false);
+            $table->boolean('is_in_use')->default(false);
             $table->timestamps();
         });
     }

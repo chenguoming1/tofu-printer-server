@@ -17,7 +17,49 @@ class PricingPlanFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'version' => '1',
+            'job_type' => $this->faker->randomElement(['copy', 'scan', 'print']),
+            'sub_category' => $this->faker->randomElement(['basic', 'id_card', 'passport', 'usb', 'email']),
+            'variants' => [
+                [
+                    'a3' => [
+                        'bw' => [
+                            'single' => '0.10',
+                            'double' => '0.20',
+                        ],
+                        'color' => [
+                            'single' => '0.20',
+                            'double' => '0.40',
+                        ],
+                    ],
+                ],
+                [
+                    'a4' => [
+                        'bw' => [
+                            'single' => '0.10',
+                            'double' => '0.20',
+                        ],
+                        'color' => [
+                            'single' => '0.20',
+                            'double' => '0.40',
+                        ],
+                    ],
+                ],
+                [
+                    'a5' => [
+                        'bw' => [
+                            'single' => '0.10',
+                            'double' => '0.20',
+                        ],
+                        'color' => [
+                            'single' => '0.20',
+                            'double' => '0.40',
+                        ],
+                    ],
+                ],
+            ],
+            'is_in_use' => false,
         ];
     }
 }
