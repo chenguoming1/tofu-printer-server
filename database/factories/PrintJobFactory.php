@@ -36,7 +36,7 @@ class PrintJobFactory extends Factory
                 'paper_size' => $this->faker->randomElement(['a3', 'a4', 'a5']),
                 'orientation' => $this->faker->randomElement(['portrait', 'landscape']),
                 'layout' => $this->faker->randomElement(['1up', '2up']),
-                'sides' => $this->faker->randomElement(['single', 'double']),
+                'sides' => $this->faker->randomElement(['single', 'duplex']),
             ],
         ];
     }

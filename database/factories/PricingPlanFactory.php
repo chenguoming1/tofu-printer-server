@@ -26,11 +26,11 @@ class PricingPlanFactory extends Factory
                     'a3' => [
                         'mono' => [
                             'single' => '0.10',
-                            'double' => '0.20',
+                            'duplex' => '0.20',
                         ],
                         'color' => [
                             'single' => '0.20',
-                            'double' => '0.40',
+                            'duplex' => '0.40',
                         ],
                     ],
                 ],
@@ -38,11 +38,11 @@ class PricingPlanFactory extends Factory
                     'a4' => [
                         'mono' => [
                             'single' => '0.10',
-                            'double' => '0.20',
+                            'duplex' => '0.20',
                         ],
                         'color' => [
                             'single' => '0.20',
-                            'double' => '0.40',
+                            'duplex' => '0.40',
                         ],
                     ],
                 ],
@@ -50,11 +50,11 @@ class PricingPlanFactory extends Factory
                     'a5' => [
                         'mono' => [
                             'single' => '0.10',
-                            'double' => '0.20',
+                            'duplex' => '0.20',
                         ],
                         'color' => [
                             'single' => '0.20',
-                            'double' => '0.40',
+                            'duplex' => '0.40',
                         ],
                     ],
                 ],
