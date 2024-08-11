@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PricingPlan extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'variants' => 'array',
+    ];
 }

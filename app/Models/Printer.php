@@ -11,6 +11,10 @@ class Printer extends Model
     use HasFactory;
 
     protected $guarded = ['created_at', 'updated_at', 'id'];
+    
+    protected $casts = [
+        'pricing_plan_ids' => 'array',
+    ];
 
     protected static function boot() {
         parent::boot();

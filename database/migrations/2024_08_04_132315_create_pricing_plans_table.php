@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('pricing_plans', function (Blueprint $table) {
             $table->id();
-            $table->string('version');
-            $table->string('name');
-            $table->string('job_type');
-            $table->string('sub_category');
-            $table->json('variants');
-            $table->boolean('published');
+            $table->string('version')->nullable();
+            $table->string('name')->nullable();
+            $table->string('job_type')->nullable();
+            $table->string('sub_category')->nullable();
+            $table->json('variants')->nullable();
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }

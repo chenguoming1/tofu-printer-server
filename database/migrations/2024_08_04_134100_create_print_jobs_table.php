@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('status');
             $table->integer('quantity');
             $table->float('amount');
-            $table->string('currency_code');
+            $table->string('currency_code')->default('SGD');
             $table->string('payment_type');
             $table->string('payment_status');
-            $table->json('selected_options');
+            $table->json('selected_options')->nullable();
             $table->timestamps();
         });
     }

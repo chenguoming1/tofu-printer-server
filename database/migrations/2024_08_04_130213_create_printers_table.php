@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('printers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('address');
-            $table->string('postalcode');
-            $table->string('country');
+            $table->string('name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('postalcode')->nullable();
+            $table->string('country')->nullable()->default('singapore');
+            $table->json('pricing_plan_ids')->nullable();
             $table->timestamps();
         });
     }
