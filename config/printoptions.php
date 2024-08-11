@@ -84,11 +84,11 @@ return [
                 "type" => "select",
                 "options" => [
                     [
-                        "name" => "1sided",
+                        "name" => "single",
                         "display_name" => "1 Sided"
                     ],
                     [
-                        "name" => "2sided",
+                        "name" => "duplex",
                         "display_name" => "2 Sided"
                     ]
                 ]
