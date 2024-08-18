@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\PrinterResource;
@@ -11,6 +12,12 @@ use App\Models\Printer;
 use App\Models\PrintJob;
 
 Route::prefix('v1')->group(function () {
+
+    ########################## Auth ##########################
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
+    Route::delete('/logout', [LoginController::class, 'logout'])->middleware('auth:api');
+
+
     Route::get('/options', function () {
         $response = [
             'message' => 'retrieved data successfully',
