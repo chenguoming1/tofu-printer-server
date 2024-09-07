@@ -21,9 +21,10 @@ class LoginController extends Controller
         ]);
  
         if (Auth::attempt($credentials)) {
-            $token = $request->user()->createToken($request->token_name);
+            $user = $request->user();
+            $token = $user->createToken($request->token_name);
  
-            return response()->json(['token' => $token->accessToken]);
+            return response()->json(['token' => $token->accessToken, 'name' => $user->name, 'email' => $user->email]);
         }
  
         return response()->json(['message' => 'Unauthorized'], 401);
