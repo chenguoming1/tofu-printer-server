@@ -60,7 +60,7 @@ Route::prefix('v1')->group(function () {
         
         foreach ($filters as $filter) {
             $filter= json_decode($filter, true);
-            $query->where($filter['key'], $filter['operator'], $filter['value']);
+            $query->where($filter['key'], $filter['value']);
         }
         return PrinterResource::collection($query->paginate($request->input('per_page', 20)));
     });
@@ -88,7 +88,7 @@ Route::prefix('v1')->group(function () {
         
         foreach ($filters as $filter) {
             $filter= json_decode($filter, true);
-            $query->where($filter['key'], $filter['operator'], $filter['value']);
+            $query->where($filter['key'], $filter['value']);
         }
         return PrintJobResource::collection($query->paginate($request->input('per_page', 20)));
     });
