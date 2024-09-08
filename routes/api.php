@@ -55,7 +55,14 @@ Route::prefix('v1')->group(function () {
 
     ########################## Pricing Plans ##########################
     Route::get('/pricing_plans', function (Request $request) {
-        return PrinterResource::collection(PricingPlan::paginate($request->input('per_page', 20)));
+        $query = PricingPlan::query();
+        $filters = $request->input('filters', []);
+        
+        foreach ($filters as $filter) {
+            $filter= json_decode($filter, true);
+            $query->where($filter['key'], $filter['operator'], $filter['value']);
+        }
+        return PrinterResource::collection($query->paginate($request->input('per_page', 20)));
     });
     Route::get('/pricing_plans/{id}', function (Request $request, string $id) {
         return new PrinterResource(PricingPlan::findOrFail($id));
