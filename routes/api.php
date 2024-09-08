@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FiltersController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -76,4 +77,6 @@ Route::prefix('v1')->group(function () {
     Route::get('/print_jobs', function (Request $request) {
         return PrintJobResource::collection(PrintJob::paginate($request->input('per_page', 20)));
     });
+
+    Route::get('/filters', [FiltersController::class, 'index'])->name('filters_and_templates');
 });
