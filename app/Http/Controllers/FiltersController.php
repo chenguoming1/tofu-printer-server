@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class PricingVariantTemplatesController extends Controller
+class FiltersController extends Controller
 {
     function index(Request $request)
     {
