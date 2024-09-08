@@ -52,7 +52,6 @@ Route::prefix('v1')->group(function () {
         return new PrinterResource($printer);
     });
 
-
     ########################## Pricing Plans ##########################
     Route::get('/pricing_plans', function (Request $request) {
         $query = PricingPlan::query();
