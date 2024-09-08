@@ -83,7 +83,14 @@ Route::prefix('v1')->group(function () {
 
     ########################## Print Job ##########################
     Route::get('/print_jobs', function (Request $request) {
-        return PrintJobResource::collection(PrintJob::paginate($request->input('per_page', 20)));
+        $query = PrintJob::query();
+        $filters = $request->input('filters', []);
+        
+        foreach ($filters as $filter) {
+            $filter= json_decode($filter, true);
+            $query->where($filter['key'], $filter['operator'], $filter['value']);
+        }
+        return PrintJobResource::collection($query->paginate($request->input('per_page', 20)));
     });
 
     Route::get('/filters', [FiltersController::class, 'index'])->name('filters_and_templates');
