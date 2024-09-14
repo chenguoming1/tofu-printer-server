@@ -65,7 +65,7 @@ Route::prefix('v1')->group(function () {
         return new PricingPlanCollection($query->paginate($request->input('per_page', 20)));
     });
     Route::get('/pricing_plans/{id}', function (Request $request, string $id) {
-        return new PrinterResource(PricingPlan::findOrFail($id));
+        return new PricingPlanResource(PricingPlan::findOrFail($id));
     });
     Route::delete('/pricing_plans/{id}', function (string $id) {
         PricingPlan::findOrFail($id)->delete();
