@@ -9,6 +9,7 @@ use App\Http\Resources\PrintJobResource;
 use App\Http\Resources\PricingPlanResource;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PricingVariantTemplatesController;
+use App\Http\Resources\PricingPlanCollection;
 use App\Models\PricingPlan;
 use App\Models\Printer;
 use App\Models\PrintJob;
@@ -61,7 +62,7 @@ Route::prefix('v1')->group(function () {
             $filter= json_decode($filter, true);
             $query->where($filter['key'], $filter['value']);
         }
-        return PrinterResource::collection($query->paginate($request->input('per_page', 20)));
+        return new PricingPlanCollection($query->paginate($request->input('per_page', 20)));
     });
     Route::get('/pricing_plans/{id}', function (Request $request, string $id) {
         return new PrinterResource(PricingPlan::findOrFail($id));

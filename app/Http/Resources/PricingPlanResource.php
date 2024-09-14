@@ -14,6 +14,22 @@ class PricingPlanResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $resourceArr = parent::toArray($request);
+
+        $resourceArr['job_type_display_name'] = $this->getDisplayName($this->job_type, 'job_types');
+        $resourceArr['sub_category_display_name'] = $this->getDisplayName($this->sub_category, 'sub_categories');
+
+        return $resourceArr;
+    }
+
+
+    public function getDisplayName($name, $filterType) {
+        $filters = config('filters');
+
+        foreach($filters[$filterType] as $filter) {
+            if ($filter['name'] == $name) {
+                return $filter['display_name'];
+            }
+        }
     }
 }
