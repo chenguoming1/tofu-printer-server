@@ -13,6 +13,8 @@ use App\Http\Resources\PricingPlanCollection;
 use App\Models\PricingPlan;
 use App\Models\Printer;
 use App\Models\PrintJob;
+use App\Helpers\QueryHelper;
+use App\Http\Resources\PrintJobCollection;
 
 Route::prefix('v1')->group(function () {
 
@@ -34,7 +36,9 @@ Route::prefix('v1')->group(function () {
 
     ########################## Printers ##########################
     Route::get('/printers', function (Request $request) {
-        return PrinterResource::collection(Printer::paginate($request->input('per_page', 20)));
+        $query = Printer::query();
+        $query = QueryHelper::getQuery($request, $query, []);
+        return PrinterResource::collection($query->paginate($request->input('per_page', 20)));
     });
     Route::get('/printers/{id}', function (Request $request, string $id) {
         return new PrinterResource(Printer::findOrFail($id));
@@ -56,12 +60,7 @@ Route::prefix('v1')->group(function () {
     ########################## Pricing Plans ##########################
     Route::get('/pricing_plans', function (Request $request) {
         $query = PricingPlan::query();
-        $filters = $request->input('filters', []);
-        
-        foreach ($filters as $filter) {
-            $filter= json_decode($filter, true);
-            $query->where($filter['key'], $filter['value']);
-        }
+        $query = QueryHelper::getQuery($request, $query, []);
         return new PricingPlanCollection($query->paginate($request->input('per_page', 20)));
     });
     Route::get('/pricing_plans/{id}', function (Request $request, string $id) {
@@ -84,13 +83,8 @@ Route::prefix('v1')->group(function () {
     ########################## Print Job ##########################
     Route::get('/print_jobs', function (Request $request) {
         $query = PrintJob::query();
-        $filters = $request->input('filters', []);
-        
-        foreach ($filters as $filter) {
-            $filter= json_decode($filter, true);
-            $query->where($filter['key'], $filter['value']);
-        }
-        return PrintJobResource::collection($query->paginate($request->input('per_page', 20)));
+        $query = QueryHelper::getQuery($request, $query, []);
+        return new PrintJobCollection($query->paginate($request->input('per_page', 20)));
     });
 
     Route::get('/filters', [FiltersController::class, 'index'])->name('filters_and_templates');
