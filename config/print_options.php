@@ -22,11 +22,13 @@ return [
         "name" => "mono",
         "display_name" => "Mono",
         "type" => "color",
+        "icon" => url("/icons/mono.png"),
       ],
       [
         "name" => "color",
         "display_name" => "Color",
         "type" => "color",
+        "icon" => url("/icons/color.png"),
       ],
     ],
     "sides" => [

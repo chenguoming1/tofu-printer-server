@@ -12,7 +12,6 @@ class PricingVariantTemplatesController extends Controller
         $rootOption = 'paper_sizes';
 
         $printOptions = $this->resolveTemplate($rootOption);
-        // return response()->json([$rootOption => $printOptions]);
 
         $result = [];
         $subCategories = config('filters.sub_categories');
