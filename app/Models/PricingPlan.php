@@ -13,6 +13,7 @@ class PricingPlan extends Model
 
     protected $casts = [
         'variants' => 'array',
+        'variant_display' => 'array'
     ];
 
     protected $hidden = [

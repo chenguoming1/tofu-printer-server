@@ -14,6 +14,7 @@ use App\Models\PricingPlan;
 use App\Models\Printer;
 use App\Models\PrintJob;
 use App\Helpers\QueryHelper;
+use App\Http\Controllers\PricingPlanController;
 use App\Http\Resources\PrinterCollection;
 use App\Http\Resources\PrintJobCollection;
 
@@ -69,15 +70,8 @@ Route::prefix('v1')->group(function () {
         PricingPlan::findOrFail($id)->delete();
         return response()->json(['message' => 'deleted successfully']);
     });
-    Route::post('/pricing_plans', function (Request $request) {
-        $printer = PricingPlan::create($request->all());
-        return new PricingPlanResource($printer);
-    });
-    Route::put('/pricing_plans/{id}', function (Request $request, string $id) {
-        $printer = PricingPlan::findOrFail($id);
-        $printer->update($request->all());
-        return new PricingPlanResource($printer);
-    });
+    Route::post('/pricing_plans', [PricingPlanController::class, 'store']);
+    Route::put('/pricing_plans/{id}', [PricingPlanController::class, 'update']);
 
     ########################## Print Job ##########################
     Route::get('/print_jobs', function (Request $request) {
