@@ -93,4 +93,9 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/filters', [FiltersController::class, 'index'])->name('filters_and_templates');
     Route::get('/pricing_variant_templates', [PricingVariantTemplatesController::class, 'index'])->name('pricing_variant_templates');
+    ########################## mobile apis ##########################
+    Route::get('/printer_pricing_plans', function (Request $request) {
+        $query = QueryHelper::getQuery($request, PricingPlan::query(), []);
+        return new PricingPlanCollection($query->paginate($request->input('per_page', 20)));
+    });
 });
