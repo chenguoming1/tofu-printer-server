@@ -26,11 +26,23 @@ Route::prefix('v1')->group(function () {
 
 
     Route::get('/options', function () {
+        $subCategories = config('filters.sub_categories');
+        $printOptions = config('mobile_print_options');
+
         $response = [
             'message' => 'retrieved data successfully',
-            'data' => config('printoptions')
-    ];
-        return $response;    
+            'data' => []
+        ];
+
+        collect($subCategories)->map(function ($subCategory) use (&$response, $printOptions) {
+            $response['data'][$subCategory['name']] = [
+                'name' => $subCategory['name'],
+                'display_name' => $subCategory['display_name'],
+                'option_items' => $printOptions
+            ];
+        });
+
+        return $response;
     });
 
     Route::post('/payment/init', [PaymentController::class, 'store']);
