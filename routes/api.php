@@ -15,6 +15,7 @@ use App\Models\Printer;
 use App\Models\PrintJob;
 use App\Helpers\QueryHelper;
 use App\Http\Controllers\PricingPlanController;
+use App\Http\Controllers\PrinterPricingPlanController;
 use App\Http\Resources\PrinterCollection;
 use App\Http\Resources\PrintJobCollection;
 
@@ -98,4 +99,6 @@ Route::prefix('v1')->group(function () {
         $query = QueryHelper::getQuery($request, PricingPlan::query(), []);
         return new PricingPlanCollection($query->paginate($request->input('per_page', 20)));
     });
+
+    Route::post('/calc_price/{pricingPlan}', [PrinterPricingPlanController::class, 'calcPrice'])->name('calc_price');
 });
