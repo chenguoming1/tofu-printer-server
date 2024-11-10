@@ -69,7 +69,7 @@ class PrinterPricingPlanController extends Controller
         $query = PricingPlan::query();
         $query = $query->whereIn('id', $pricingPlanIds);
 
-
+        $query = QueryHelper::getQuery($request, $query, $filters);
         return new PricingPlanCollection($query->paginate($request->input('per_page', 20)));
     }
 }
