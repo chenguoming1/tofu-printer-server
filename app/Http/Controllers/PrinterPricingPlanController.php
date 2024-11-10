@@ -59,12 +59,12 @@ class PrinterPricingPlanController extends Controller
             return response()->json(['message' => 'Job type is required'], 400);
         }
 
-        $printerId = $request->header('Printer-Id');
-        if (!$printerId) {
-            return response()->json(['message' => 'Printer-Id is required'], 400);
+        $printerName = $request->header('Printer-Name');
+        if (!$printerName) {
+            return response()->json(['message' => 'Printer-Name is required'], 400);
         }
 
-        $printer = Printer::findOrFail($printerId);
+        $printer = Printer::whereName($printerName)->first();
         $pricingPlanIds = $printer->pricing_plan_ids ?? [];
         $query = PricingPlan::query();
         $query = $query->whereIn('id', $pricingPlanIds);
