@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PricingPlanResource;
 use App\Models\PricingPlan;
+use App\Models\Printer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Helpers\QueryHelper;
+use App\Http\Resources\PricingPlanCollection;
 
 class PrinterPricingPlanController extends Controller
 {
@@ -42,5 +44,32 @@ class PrinterPricingPlanController extends Controller
         $totalPrice = $price * $quantity;
 
         return response()->json(['data' => ['price' => $totalPrice]]);
+    }
+
+    function getPrinterPricingPlan(Request $request)
+    {
+        $filters = $request->input('filters', []);
+        $jobType = collect($filters)->first(function ($filter) {
+            $filter = json_decode($filter, true);
+            if ($filter['key'] == 'job_type') {
+                return $filter['value'];
+            }
+        });
+        if (!$jobType) {
+            return response()->json(['message' => 'Job type is required'], 400);
+        }
+
+        $printerId = $request->header('Printer-Id');
+        if (!$printerId) {
+            return response()->json(['message' => 'Printer-Id is required'], 400);
+        }
+
+        $printer = Printer::findOrFail($printerId);
+        $pricingPlanIds = $printer->pricing_plan_ids ?? [];
+        $query = PricingPlan::query();
+        $query = $query->whereIn('id', $pricingPlanIds);
+
+
+        return new PricingPlanCollection($query->paginate($request->input('per_page', 20)));
     }
 }
