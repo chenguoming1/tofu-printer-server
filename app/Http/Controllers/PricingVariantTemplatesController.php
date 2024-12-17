@@ -9,6 +9,7 @@ class PricingVariantTemplatesController extends Controller
 {
     function index(Request $request)
     {
+        $printOptions = [];
         $rootOption = 'paper_sizes';
 
         $printOptions = $this->resolveTemplate($rootOption);
@@ -38,8 +39,15 @@ class PricingVariantTemplatesController extends Controller
         $elements = config("print_options.{$option}");
         foreach($elements as $index => $element) {
             if ($optionKey) {
-                $options = $this->resolveTemplate($optionKey);
-                $additionalAttributes[$optionKey] = $options;
+                if (!is_array($optionKey)) {
+                    $options = $this->resolveTemplate($optionKey);
+                    $additionalAttributes[$optionKey] = $options;
+                }else {
+                    foreach($optionKey as $key) {
+                        $options = $this->resolveTemplate($key);
+                        $additionalAttributes[$key] = $options;
+                    }
+                }
             }
             $elements[$index] = array_merge($element, $additionalAttributes);
         }

@@ -23,12 +23,14 @@ return [
         "display_name" => "Mono",
         "type" => "color",
         "icon" => PHP_SAPI === 'cli' ? false : url("/icons/mono.png"),
+        "rate" => 1,
       ],
       [
         "name" => "color",
         "display_name" => "Color",
         "type" => "color",
         "icon" => PHP_SAPI === 'cli' ? false : url("/icons/color.png"),
+        "rate" => 1.5,
       ],
     ],
     "sides" => [
@@ -36,13 +38,13 @@ return [
         "name" => "single",
         "display_name" => "Single Sided",
         "type" => "side",
-        "price" => 0.0,
+        "rate" => 1,
       ],
       [
         "name" => "double",
         "display_name" => "Double Sided",
         "type" => "side",
-        "price" => 0.0,
+        "rate" => 1.5,
       ],
     ],
 ];
