@@ -84,7 +84,7 @@ Route::prefix('v1')->group(function () {
         return response()->json(['message' => 'deleted successfully']);
     });
     Route::post('/pricing_plans', [PricingPlanController::class, 'store']);
-    Route::put('/pricing_plans/{id}', [PricingPlanController::class, 'update']);
+    Route::put('/pricing_plans/{pricingPlan}', [PricingPlanController::class, 'update']);
 
     ########################## Print Job ##########################
     Route::get('/print_jobs', function (Request $request) {

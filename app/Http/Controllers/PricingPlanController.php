@@ -12,10 +12,16 @@ class PricingPlanController extends Controller
     function getPriceRange($variants) {
         $minPrice = '1000';
         $maxPrice = '0.00';
+        $printOptions = config('print_options');
 
-        foreach ($variants['paper_sizes'] as $paperSize) {
-            foreach ($paperSize['colors'] as $color) {
-                foreach ($color['sides'] as $price) {
+        $colors = $printOptions['colors'];
+        $sides = $printOptions['sides'];
+
+        foreach ($variants['base_prices'] as $basePrice) {
+            foreach ($colors as $color) {
+                foreach ($sides as $side) {
+                    $price = $basePrice + $color['rate'] + $side['rate'];
+
                     if ($price < $minPrice) {
                         $minPrice = $price;
                     }
@@ -41,26 +47,13 @@ class PricingPlanController extends Controller
     }
 
     function getVariantDisplay($variants) {
-        $variantDisplay = [];
+        $basePrices = $variants['base_prices'];
         $paperSizesDisplayName = [];
-        $colorsDisplayName = [];
-        $sidesDisplayName = [];
-        $variantCount = 0;
-        foreach($variants['paper_sizes'] as $paperSizeKey => $paperSize) {
-            $paperSizesDisplayName[] = $this->getPrintOptionDisplayName('paper_sizes', $paperSizeKey);
-            foreach($paperSize['colors'] as $colorKey => $color) {
-                $colorsDisplayName[] = $this->getPrintOptionDisplayName('colors', $colorKey);
-                foreach($color['sides'] as $sideKey => $price) {
-                    $sidesDisplayName[] = $this->getPrintOptionDisplayName('sides', $sideKey);
-                    $variantCount++;
-                }   
-            }
+        foreach($basePrices as $paperSize => $price) {
+            $paperSizesDisplayName[] = $this->getPrintOptionDisplayName('paper_sizes', $paperSize);
         }
-        $variantDisplay[] = collect($sidesDisplayName)->unique()->join('/');
-        $variantDisplay = array_merge([collect($colorsDisplayName)->unique()->join('/')], $variantDisplay);
-        $variantDisplay = array_merge([collect($paperSizesDisplayName)->unique()->join('.')], $variantDisplay);
-        $variantDisplay = array_merge([$variantCount.' Variants'], $variantDisplay);
-        return $variantDisplay;
+
+        return $paperSizesDisplayName;
     }
 
     function store(Request $request)
@@ -74,11 +67,10 @@ class PricingPlanController extends Controller
         return new PricingPlanResource($printer);     
     }
 
-   function update(Request $request, PricingPlan $pricingPlan)
+   function update(PricingPlan $pricingPlan, Request $request)
     {
         $data = $request->all();
         $variants = $data['variants'];
-        // dd($variants);
         $pricingPlan->fill($request->all());
         $pricingPlan->price_range = $this->getPriceRange($variants);
         $pricingPlan->update();
