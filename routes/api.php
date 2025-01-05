@@ -15,6 +15,7 @@ use App\Models\Printer;
 use App\Models\PrintJob;
 use App\Helpers\QueryHelper;
 use App\Http\Controllers\PricingPlanController;
+use App\Http\Controllers\PrintJobController;
 use App\Http\Controllers\PrinterPricingPlanController;
 use App\Http\Resources\PrinterCollection;
 use App\Http\Resources\PrintJobCollection;
@@ -45,9 +46,6 @@ Route::prefix('v1')->group(function () {
 
         return $response;
     });
-
-    Route::post('/payment/init', [PaymentController::class, 'store']);
-    Route::get('/payment/status', [PaymentController::class, 'get']);
 
     ########################## Printers ##########################
     Route::get('/printers', function (Request $request) {
@@ -97,6 +95,8 @@ Route::prefix('v1')->group(function () {
     ########################## mobile apis ##########################
     Route::get('/printer_pricing_plans', [PrinterPricingPlanController::class, 'getPrinterPricingPlan'])->name('getPrinterPricingPlan');
 
+    Route::post('/print_jobs', [PrintJobController::class, 'store'])->name('store_printer_job');
+    Route::put('/print_jobs/{printJob}', [PrintJobController::class, 'update'])->name('update_printer_job');
 
     Route::post('/calc_price/{pricingPlan}', [PrinterPricingPlanController::class, 'calcPrice'])->name('calc_price');
 });

@@ -49,7 +49,29 @@ return [
         "type" => "payment_type",
       ],
     ],
+    "job_statuses" => [
+      [
+        "name" => "in_progress",
+        "display_name" => "In Progress",
+        "type" => "job_status",
+      ],
+      [
+        "name" => "done",
+        "display_name" => "Done",
+        "type" => "job_status",
+      ],
+      [
+        "name" => "cancelled",
+        "display_name" => "Cancelled",
+        "type" => "job_status",
+      ],
+    ],
     "payment_statuses" => [
+      [
+        "name" => "pending",
+        "display_name" => "Pending",
+        "type" => "payment_status",
+      ],
       [
         "name" => "paid",
         "display_name" => "Paid",
@@ -58,6 +80,16 @@ return [
       [
         "name" => "unpaid",
         "display_name" => "Unpaid",
+        "type" => "payment_status",
+      ],
+      [
+        "name" => "failed",
+        "display_name" => "Failed",
+        "type" => "payment_status",
+      ],
+      [
+        "name" => "success",
+        "display_name" => "Success",
         "type" => "payment_status",
       ],
     ],
