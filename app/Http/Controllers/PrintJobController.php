@@ -7,6 +7,7 @@ use App\Models\PricingPlan;
 use App\Models\Printer;
 use Illuminate\Http\Request;
 use App\Helpers\QueryHelper;
+use App\Helpers\PrintOptionHelper;
 use App\Http\Resources\PricingPlanCollection;
 use App\Models\PrintJob;
 
@@ -50,6 +51,14 @@ class PrintJobController extends Controller
             'data.quantity' => 'required|int|min:1|max:1000',
         ]);
 
+        $qty = $validated['data']['quantity'];
+        $selectedOptions = $validated['data']['selected_option_items'];
+        $selectedColorOption = $selectedOptions['color'];
+        $selectedSideOption = $selectedOptions['side'];
+        $basePrice = $pricingPlan->base_price;
+
+        $amount = PrintOptionHelper::calcPrice($basePrice, $qty, $selectedColorOption, $selectedSideOption);
+
         $printerJob = new PrintJob();
         $printerJob->job_no = $printer->id . str_replace('.', '', microtime(true));
         $printerJob->printer_id = $printer->id;
@@ -57,12 +66,12 @@ class PrintJobController extends Controller
         $printerJob->job_type = $pricingPlan->job_type;
         $printerJob->sub_category = $pricingPlan->sub_category;
         $printerJob->status = PrintJob::JOB_STATUS_IN_PROGRESS;
-        $printerJob->quantity = $validated['data']['quantity'];
-        $printerJob->amount = $this->calcPrice($pricingPlan, $validated['data']['quantity'], $validated['data']['selected_option_items']);
+        $printerJob->quantity = $qty;
+        $printerJob->amount = $amount
         $printerJob->currency_code = 'SGD';
         $printerJob->payment_type = PrintJob::PAYMENT_ENETS;
         $printerJob->payment_status = PrintJob::PAYMENT_STATUS_PENDING;
-        $printerJob->selected_option_items = json_encode($validated['data']['selected_option_items']);
+        $printerJob->selected_option_items = json_encode($selectedOptions);
         $printerJob->save();
 
         return response()->json(['message' => 'Job created successfully', 'data' => ['id' => $printerJob->id, 'job_no' => $printerJob->job_no]]);
@@ -86,15 +95,5 @@ class PrintJobController extends Controller
         $printJob->save();
 
         return response()->json(['message' => 'Job updated successfully']);
-    }
-
-    public function calcPrice($pricingPlan, $qty, $selectedOptions)
-    {
-        $printOptions = config('print_options');
-        $colorRate = collect($printOptions['colors'])->firstWhere('name', $selectedOptions['color'])['rate'];
-        $sideRate = collect($printOptions['sides'])->firstWhere('name', $selectedOptions['side'])['rate'];
-        $price = $pricingPlan->base_price * $colorRate  * $sideRate * $qty;
-
-        return $price;
     }
 }
