@@ -7,6 +7,7 @@ use App\Models\PricingPlan;
 use App\Models\Printer;
 use Illuminate\Http\Request;
 use App\Helpers\QueryHelper;
+use App\Helpers\PrintOptionHelper;
 use App\Http\Resources\PricingPlanCollection;
 
 class PrinterPricingPlanController extends Controller
@@ -14,7 +15,6 @@ class PrinterPricingPlanController extends Controller
 
     function calcPrice(Request $request, PricingPlan $pricingPlan)
     {
-        
         $validated = $request->validate([
             'data.selected_option_items.color' => 'required|in:color,mono',
             'data.selected_option_items.paper_size' => 'required|in:a3,a4,a5',
@@ -25,25 +25,15 @@ class PrinterPricingPlanController extends Controller
         $quantity = $validated['data']['quantity'];
         $selectedOptionItems = $validated['data']['selected_option_items'];
         $variants = $pricingPlan->variants;
-        $paperSizes = isset($variants['paper_sizes']) ? $variants['paper_sizes'] : [];
-        if (!isset($paperSizes[$selectedOptionItems['paper_size']])) {
-            return response()->json(['message' => 'Invalid paper size'], 400);
-        }
+        $basePrices = $variants['base_prices'];
 
-        $colors = isset($paperSizes[$selectedOptionItems['paper_size']]['colors']) ? $paperSizes[$selectedOptionItems['paper_size']]['colors'] : [];
-        if (!isset($colors[$selectedOptionItems['color']])) {
-            return response()->json(['message' => 'Invalid color'], 400);
-        }
+        $basePrice = $basePrices[$selectedOptionItems['paper_size']] ?? 0.0;
+        $selectedColorOption = $selectedOptionItems['color'];
+        $selectedSideOption = $selectedOptionItems['side'];
+        
+        $amount = PrintOptionHelper::calcPrice($basePrice, $quantity, $selectedColorOption, $selectedSideOption);
 
-        $sides = isset($colors[$selectedOptionItems['color']]['sides']) ? $colors[$selectedOptionItems['color']]['sides'] : [];
-        if (!isset($sides[$selectedOptionItems['side']])) {
-            return response()->json(['message' => 'Invalid side'], 400);
-        }
-
-        $price = $sides[$selectedOptionItems['side']];
-        $totalPrice = $price * $quantity;
-
-        return response()->json(['data' => ['price' => $totalPrice]]);
+        return response()->json(['data' => ['price' => $amount, 'amount' => $amount]]);
     }
 
     function getPrinterPricingPlan(Request $request)
