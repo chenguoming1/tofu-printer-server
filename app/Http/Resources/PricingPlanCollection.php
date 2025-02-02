@@ -14,6 +14,19 @@ class PricingPlanCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $parentResult = parent::toArray($request);
+
+        foreach ($parentResult as $index => $pricingPlan) {
+            $printOptions = config('print_options');
+            $colors = $printOptions['colors'];
+            $sides =  $printOptions['sides'];
+            $colorRates = collect($colors)->pluck('rate', 'name');
+            $sideRates = collect($sides)->pluck('rate', 'name');
+
+            $parentResult[$index]['color_rates'] = $colorRates;
+            $parentResult[$index]['side_rates'] = $sideRates;
+        }
+
+        return $parentResult;
     }
 }
