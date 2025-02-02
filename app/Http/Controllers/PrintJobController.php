@@ -67,7 +67,7 @@ class PrintJobController extends Controller
         $printerJob->sub_category = $pricingPlan->sub_category;
         $printerJob->status = PrintJob::JOB_STATUS_IN_PROGRESS;
         $printerJob->quantity = $qty;
-        $printerJob->amount = $amount
+        $printerJob->amount = $amount;
         $printerJob->currency_code = 'SGD';
         $printerJob->payment_type = PrintJob::PAYMENT_ENETS;
         $printerJob->payment_status = PrintJob::PAYMENT_STATUS_PENDING;
